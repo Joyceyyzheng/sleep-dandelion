@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { DirectionalLightHelper } from 'three';
-import { Vector3 } from 'three';
-import { DoubleSide } from "three";
+import { Vector3, TextureLoader, DoubleSide, BackSide } from 'three';
 
 // import Slider from '@mui/material/Slider';
 
 const MovingLight = () => {
+
     const lightRef = useRef();
     // console.info(lightRef.current.position)
     const helperRef = useRef();
@@ -14,6 +14,10 @@ const MovingLight = () => {
     const planetRef = useRef()
     const { scene } = useThree(); // Use useThree hook correctly at the top level
 
+    const [dayPhase, setDayPhase] = useState(true);
+    const textureLoader = new TextureLoader();
+    const initialSkyboxTexture = textureLoader.load('skybox/day.png');
+    const [skyboxTexture, setSkyboxTexture] = useState(initialSkyboxTexture);
 
     useEffect(() => {
         if (lightRef.current) {
@@ -29,6 +33,16 @@ const MovingLight = () => {
         const duration = 10; //⚠️ where to modify the time duration -> seconds
         const time = (Math.sin(t / duration * Math.PI) + 1) / 2;
         // console.info(time)
+        const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
+
+
+        if (currentDayPhase !== dayPhase) {
+            setDayPhase(currentDayPhase);
+        }
+
+        // if (dayPhase) {
+        //     console.info('Day')
+        // }
 
         const startPosition = new Vector3(5, 5, -3);
         const endPosition = new Vector3(-5, 2, -3);
@@ -44,6 +58,30 @@ const MovingLight = () => {
             lightRef.current.lookAt(new Vector3(0, -1, 0));
         }
     });
+
+    useEffect(() => {
+        // console.info(dayPhase ? "Day" : "Night");
+        // Perform additional actions based on day or night
+        if (dayPhase) {
+            console.info("Day");
+            // Set day skybox texture
+            const daySkyboxTexture = textureLoader.load('skybox/day.png');
+            setSkyboxTexture(daySkyboxTexture);
+            // Set light intensity to a higher value for daylight
+            if (lightRef.current) {
+                lightRef.current.intensity = 15.0; // Example intensity
+            }
+        } else {
+            console.info("Night");
+            // Set night skybox texture
+            const nightSkyboxTexture = textureLoader.load('skybox/night.png');
+            setSkyboxTexture(nightSkyboxTexture);
+            // Set light intensity to a lower value for night time
+            if (lightRef.current) {
+                lightRef.current.intensity = 1.3; // Example intensity
+            }
+        }
+    }, [dayPhase]);
 
     useFrame(() => {
         if (lightRef.current && planetRef.current) {
@@ -69,6 +107,11 @@ const MovingLight = () => {
                 <sphereGeometry />
                 <meshStandardMaterial color="yellow" side={DoubleSide} />
             </mesh>
+            <mesh>
+                <boxGeometry args={[100, 100, 100]} />
+                <meshBasicMaterial map={skyboxTexture} side={BackSide} />
+            </mesh>
+
             {/* <div style={{ position: 'absolute', top: 20, left: 20, width: '30%' }}>
                 <Slider
                     min={10}

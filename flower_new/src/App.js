@@ -44,17 +44,18 @@ function App() {
         <StaticUI />
 
         <Canvas>
-          {/* <ambientLight intensity={1.0} /> */}
+          <ambientLight intensity={8.0} />  {/*position?? */}
+          <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />}
 
           <mesh>
-
+            {/* <Flower /> */}
             {/* <boxGeometry /> */}
             <Scene />
-            {/* <Flower /> */}
 
-            <Ground />
+            {/* original sphere and plane for test */}
+            {/* <Ground /> */}
 
             <meshStandardMaterial />
           </mesh>
