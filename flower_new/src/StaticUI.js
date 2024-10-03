@@ -6,6 +6,8 @@ export default function StaticUI() {
 
     const setModelActive = useStore((state) => state.setModelActive);
     const setFlowerActive = useStore((state) => state.setFlowerActive);
+    const dayNumber = useStore(state => state.dayNumber);
+
 
     function growModel() {
         setModelActive(true);
@@ -18,8 +20,9 @@ export default function StaticUI() {
 
     return (
         <>
-            <div className="ui-cat" onClick={growModel}>Cat✨</div>
-            <div className="ui-flower" onClick={growFlower}>💡</div>
+            {/* <div className="ui-cat" onClick={growModel}>Cat✨</div>
+            <div className="ui-flower" onClick={growFlower}>💡</div> */}
+            <div>Current Day: {dayNumber}</div>
         </>
     );
 }

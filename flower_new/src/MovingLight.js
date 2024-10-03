@@ -3,6 +3,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import { DirectionalLightHelper } from 'three';
 import { Vector3, TextureLoader, DoubleSide, BackSide } from 'three';
 // import Slider from '@mui/material/Slider';
+import { useStore } from './store';
 
 const MovingLight = () => {
 
@@ -21,6 +22,10 @@ const MovingLight = () => {
 
     //the point light replacing the carved sun 
     const [pointLightPosition, setPointLightPosition] = useState(new Vector3(1.5, 1, 1));
+
+    // const [dayNumber, setDayNumber] = useState(1)
+    const setDayNumber = useStore(state => state.setDayNumber);
+    const incrementDayNumber = useStore(state => state.incrementDayNumber);
 
 
     const DAY_STAGES = {
@@ -46,7 +51,7 @@ const MovingLight = () => {
 
         const time_cycle = (t % duration) / duration;
         const phase_cycle = Math.sin(time_cycle * Math.PI * 2);
-        console.info(time_cycle)
+        //.info(time_cycle)
 
         // const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
         const judgingDayPhaseNum = Math.sin(t / duration * Math.PI)
@@ -77,6 +82,8 @@ const MovingLight = () => {
             setDayStage(DAY_STAGES.EARLY);
             console.info("early")
 
+
+
         } else if (judgingDayPhaseNum > 0.7 && judgingDayPhaseNum <= 0.99 && time_cycle <= 0.5) {
             setDayStage(DAY_STAGES.LATE);
             console.info("late")
@@ -95,6 +102,7 @@ const MovingLight = () => {
 
             const daySkyboxTexture = textureLoader.load('skybox/day.png');
             setSkyboxTexture(daySkyboxTexture);
+            incrementDayNumber();
         } else {
             console.info("Night");
 

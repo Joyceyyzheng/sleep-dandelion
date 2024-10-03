@@ -10,6 +10,13 @@ export const useStore = create((set) => ({
     setGlobalControlsEnabled: () =>
         set((state) => ({ globalControlsEnabled: !state.globalControlsEnabled })),
 
+    //day number
+    dayNumber: 0,
+    setDayNumber: (dayNumber) => set({ dayNumber }),
+    incrementDayNumber: () => set(state => ({
+        dayNumber: state.dayNumber >= 7 ? 1 : state.dayNumber + 1
+    })),
+
 }))
 
 export default useStore
