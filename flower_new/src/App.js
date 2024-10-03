@@ -12,7 +12,6 @@ import { useEffect } from 'react';
 import Ground from './Ground';
 // import Flower from './Flower';
 import MovingLight from './MovingLight';
-import stats from 'stats.js';
 // import PerformanceStats from './PerformanceStats';
 import CamUsage from './CamUsage';
 

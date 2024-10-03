@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { DirectionalLightHelper } from 'three';
 import { Vector3, TextureLoader, DoubleSide, BackSide } from 'three';
-
 // import Slider from '@mui/material/Slider';
 
 const MovingLight = () => {
@@ -25,8 +24,8 @@ const MovingLight = () => {
 
 
     const DAY_STAGES = {
-        EARLY: 'early', // Represents 0.5 <= dayTimeline <= 0.7
-        LATE: 'late'    // Represents 0.7 < dayTimeline < 0.9
+        EARLY: 'early',
+        LATE: 'late'
     };
 
     useEffect(() => {
@@ -42,40 +41,48 @@ const MovingLight = () => {
         const t = clock.getElapsedTime(); //set an initial realworld time and map real world time
         const duration = 10; //⚠️ where to modify the time duration -> seconds
         const time = (Math.sin(t / duration * Math.PI) + 1) / 2;
-        // console.info(time)
+
         dayTimelineRef.current = Math.cos(t / duration * Math.PI)
 
-        const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
+        const time_cycle = (t % duration) / duration;
+        const phase_cycle = Math.sin(time_cycle * Math.PI * 2);
+        console.info(time_cycle)
 
-        console.info(dayTimelineRef.current)
+        // const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
+        const judgingDayPhaseNum = Math.sin(t / duration * Math.PI)
+        const newJudgingDayPhase = Math.sin(t / duration * Math.PI) >= 0;
 
-        if (dayTimelineRef.current >= 0.5 && dayTimelineRef.current <= 0.7 && time <= 0.4) {
 
-            setDayStage(DAY_STAGES.EARLY);
 
-        } else if (dayTimelineRef.current > 0.7 && dayTimelineRef.current <= 0.99 && time <= 0.4) {
-            setDayStage(DAY_STAGES.LATE);
-
-        } else {
-            setDayStage(null);
-        }
-
-        if (currentDayPhase !== dayPhase) {
-            setDayPhase(currentDayPhase);
+        if (newJudgingDayPhase !== dayPhase) {
+            setDayPhase(newJudgingDayPhase);
         }
 
         const startPosition = new Vector3(5, 5, -3);
         const endPosition = new Vector3(-5, 2, -3);
 
 
-        const x = startPosition.x + (endPosition.x - startPosition.x) * time;
-        const y = startPosition.y + (endPosition.y - startPosition.y) * time;
-        const z = startPosition.z + (endPosition.z - startPosition.z) * time;
+        const x = startPosition.x + (endPosition.x - startPosition.x) * time_cycle; //was *time
+        const y = startPosition.y + (endPosition.y - startPosition.y) * time_cycle;
+        const z = startPosition.z + (endPosition.z - startPosition.z) * time_cycle;
 
 
         if (lightRef.current) {
             lightRef.current.position.set(x, y, z);
             lightRef.current.lookAt(new Vector3(0, -1, 0));
+        }
+
+        if (judgingDayPhaseNum >= 0.35 && judgingDayPhaseNum <= 0.7 && time_cycle <= 0.5) {
+
+            setDayStage(DAY_STAGES.EARLY);
+            console.info("early")
+
+        } else if (judgingDayPhaseNum > 0.7 && judgingDayPhaseNum <= 0.99 && time_cycle <= 0.5) {
+            setDayStage(DAY_STAGES.LATE);
+            console.info("late")
+
+        } else {
+            setDayStage(null);
         }
     });
 
@@ -88,17 +95,11 @@ const MovingLight = () => {
 
             const daySkyboxTexture = textureLoader.load('skybox/day.png');
             setSkyboxTexture(daySkyboxTexture);
-
-            // if (lightRef.current) {
-            //     lightRef.current.intensity = 1.0;
-            // }
         } else {
             console.info("Night");
 
             const nightSkyboxTexture = textureLoader.load('skybox/night.png');
             setSkyboxTexture(nightSkyboxTexture);
-
-
         }
     }, [dayPhase]);
 
