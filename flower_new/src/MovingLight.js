@@ -18,6 +18,16 @@ const MovingLight = () => {
     const textureLoader = new TextureLoader();
     const initialSkyboxTexture = textureLoader.load('skybox/day.png');
     const [skyboxTexture, setSkyboxTexture] = useState(initialSkyboxTexture);
+    const dayTimelineRef = useRef()
+
+    //the point light replacing the carved sun 
+    const [pointLightPosition, setPointLightPosition] = useState(new Vector3(1.5, 1, 1));
+
+
+    const DAY_STAGES = {
+        EARLY: 'early', // Represents 0.5 <= dayTimeline <= 0.7
+        LATE: 'late'    // Represents 0.7 < dayTimeline < 0.9
+    };
 
     useEffect(() => {
         if (lightRef.current) {
@@ -29,20 +39,30 @@ const MovingLight = () => {
 
 
     useFrame(({ clock }) => {
-        const t = clock.getElapsedTime();
+        const t = clock.getElapsedTime(); //set an initial realworld time and map real world time
         const duration = 10; //⚠️ where to modify the time duration -> seconds
         const time = (Math.sin(t / duration * Math.PI) + 1) / 2;
         // console.info(time)
+        dayTimelineRef.current = Math.cos(t / duration * Math.PI)
+
         const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
 
+        console.info(dayTimelineRef.current)
+
+        if (dayTimelineRef.current >= 0.5 && dayTimelineRef.current <= 0.7 && time <= 0.4) {
+
+            setDayStage(DAY_STAGES.EARLY);
+
+        } else if (dayTimelineRef.current > 0.7 && dayTimelineRef.current <= 0.99 && time <= 0.4) {
+            setDayStage(DAY_STAGES.LATE);
+
+        } else {
+            setDayStage(null);
+        }
 
         if (currentDayPhase !== dayPhase) {
             setDayPhase(currentDayPhase);
         }
-
-        // if (dayPhase) {
-        //     console.info('Day')
-        // }
 
         const startPosition = new Vector3(5, 5, -3);
         const endPosition = new Vector3(-5, 2, -3);
@@ -59,49 +79,80 @@ const MovingLight = () => {
         }
     });
 
+
+
     useEffect(() => {
-        // console.info(dayPhase ? "Day" : "Night");
-        // Perform additional actions based on day or night
+
         if (dayPhase) {
             console.info("Day");
-            // Set day skybox texture
+
             const daySkyboxTexture = textureLoader.load('skybox/day.png');
             setSkyboxTexture(daySkyboxTexture);
-            // Set light intensity to a higher value for daylight
-            if (lightRef.current) {
-                lightRef.current.intensity = 15.0; // Example intensity
-            }
+
+            // if (lightRef.current) {
+            //     lightRef.current.intensity = 1.0;
+            // }
         } else {
             console.info("Night");
-            // Set night skybox texture
+
             const nightSkyboxTexture = textureLoader.load('skybox/night.png');
             setSkyboxTexture(nightSkyboxTexture);
-            // Set light intensity to a lower value for night time
-            if (lightRef.current) {
-                lightRef.current.intensity = 1.3; // Example intensity
-            }
+
+
         }
     }, [dayPhase]);
 
+
+    const [dayStage, setDayStage] = useState(null);
+
+    useEffect(() => {
+        console.info(dayStage)
+        if (dayStage === DAY_STAGES.EARLY) {
+            console.info("early")
+        } else if (dayStage === DAY_STAGES.LATE) {
+            console.info("late")
+        }
+    }, [dayStage]);
+
+    //light and helper
     useFrame(() => {
         if (lightRef.current && planetRef.current) {
             // Set the sphere's position to match the light's position
             planetRef.current.position.copy(lightRef.current.position);
         }
-    })
-
-
-    //helper
-    useFrame(() => {
         if (helperRef.current) {
             helperRef.current.update();
         }
+    })
 
+
+
+    useFrame(({ clock }) => {
+        const targetPosition = dayStage === DAY_STAGES.EARLY ? new Vector3(1.5, 1, 1) :
+            dayStage === DAY_STAGES.LATE ? new Vector3(0.15, 1.5, 1) :
+                new Vector3(1.5, 1, 1); // Default or fallback position
+
+        // Lerp (Linear Interpolation) towards the target position
+        pointLightPosition.lerp(targetPosition, 0.01); // Adjust the 0.05 value to control the speed of the transition
+        setPointLightPosition(pointLightPosition.clone());
     });
+
 
     return (
         <>
             <directionalLight ref={lightRef} position={[5, -1, 0]} intensity={10} color="white" />
+            {dayStage && <pointLight position={[pointLightPosition.x, pointLightPosition.y, pointLightPosition.z]} intensity={100.0} />}
+            {/* start sunlight pos */}
+            {/* *** */}
+            {/* {dayStage === DAY_STAGES.EARLY && <pointLight position={[1.5, 1, 1]} intensity={100.0} />}
+            {dayStage === DAY_STAGES.LATE && <pointLight position={[0.15, 1.5, 1]} intensity={100.0} />} */}
+            {/* *** */}
+            {/* can't be like this! map the correct time, and then assign the pointlight position change.  */}
+            {/* mid sunlight pos */}
+            {/* <pointLight position={[0.5, 1, 1.5]} intensity={100.0} /> */}
+            {/* end sunlight pos2 */}
+
+
 
             <mesh ref={planetRef} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, 1]} >
                 <sphereGeometry />

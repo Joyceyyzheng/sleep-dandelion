@@ -12,12 +12,17 @@ import { useEffect } from 'react';
 import Ground from './Ground';
 // import Flower from './Flower';
 import MovingLight from './MovingLight';
+import stats from 'stats.js';
+// import PerformanceStats from './PerformanceStats';
+import CamUsage from './CamUsage';
 
 function App() {
 
 
   const modelActive = useStore(state => state.modelActive);
   const flowerActive = useStore(state => state.flowerActive);
+
+  // let stats = new Stats()
 
   useEffect(() => {
 
@@ -43,8 +48,8 @@ function App() {
 
         <StaticUI />
 
-        <Canvas>
-          <ambientLight intensity={8.0} />  {/*position?? */}
+        <Canvas >
+          <ambientLight intensity={4.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />}
@@ -60,6 +65,8 @@ function App() {
             <meshStandardMaterial />
           </mesh>
           <OrbitControls />
+          <CamUsage />
+          {/* <PerformanceStats /> */}
         </Canvas>
 
       </div>
