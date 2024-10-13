@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import { DirectionalLightHelper } from 'three';
 import { Vector3, TextureLoader, DoubleSide, BackSide } from 'three';
-// import Slider from '@mui/material/Slider';
 import { useStore } from './store';
 
 const MovingLight = () => {
@@ -36,11 +35,20 @@ const MovingLight = () => {
     useEffect(() => {
         if (lightRef.current) {
             const helper = new DirectionalLightHelper(lightRef.current, 1, 'white');
-            scene.add(helper);
+            // scene.add(helper);
             return () => scene.remove(helper);
         }
     }, [scene]);
 
+    //get real-world time
+    const getCurrentPhase = () => {
+        const hour = new Date().getHours(); // Get the current hour (0-23)
+        if (hour >= 6 && hour < 18) { // Consider 6 AM to 6 PM as day
+            return 'day';
+        } else { // Consider 6 PM to 6 AM as night
+            return 'night';
+        }
+    };
 
     useFrame(({ clock }) => {
         const t = clock.getElapsedTime(); //set an initial realworld time and map real world time
@@ -52,7 +60,6 @@ const MovingLight = () => {
         const time_cycle = (t % duration) / duration;
         const phase_cycle = Math.sin(time_cycle * Math.PI * 2);
 
-        // const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
         const judgingDayPhaseNum = Math.sin(t / duration * Math.PI)
         const newJudgingDayPhase = Math.sin(t / duration * Math.PI) >= 0;
 
@@ -76,19 +83,16 @@ const MovingLight = () => {
         if (judgingDayPhaseNum >= 0.42 && judgingDayPhaseNum <= 0.7 && time_cycle <= 0.5) {
 
             setDayStage(DAY_STAGES.EARLY);
-            //   console.info("early")
+
         } else if (judgingDayPhaseNum > 0.7 && judgingDayPhaseNum <= 0.99 && time_cycle <= 0.5) {
             setDayStage(DAY_STAGES.LATE);
-            //    console.info("late")
+
         } else {
             setDayStage(null);
         }
     });
 
-
-
     useEffect(() => {
-
         if (dayPhase) {
             console.info("Day");
 
@@ -102,7 +106,6 @@ const MovingLight = () => {
             setSkyboxTexture(nightSkyboxTexture);
         }
     }, [dayPhase]);
-
 
     const [dayStage, setDayStage] = useState(null);
 
@@ -126,8 +129,6 @@ const MovingLight = () => {
         }
     })
 
-
-
     useFrame(({ clock }) => {
         const targetPosition = dayStage === DAY_STAGES.EARLY ? new Vector3(1.5, 1, 1) :
             dayStage === DAY_STAGES.LATE ? new Vector3(0.15, 1.5, 1) :
@@ -148,13 +149,11 @@ const MovingLight = () => {
                 <sphereGeometry />
                 {dayPhase && <meshStandardMaterial color="orange" map={planet_night} side={DoubleSide} />}
                 {!dayPhase && <meshStandardMaterial color="gray" map={planet_night} side={DoubleSide} />}
-                {/* <meshStandardMaterial color="yellow" side={DoubleSide} /> */}
             </mesh>
             <mesh>
                 <boxGeometry args={[100, 100, 100]} />
                 <meshBasicMaterial map={skyboxTexture} side={BackSide} />
             </mesh>
-
 
         </>
 

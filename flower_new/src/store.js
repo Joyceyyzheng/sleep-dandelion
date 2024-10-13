@@ -20,6 +20,10 @@ export const useStore = create((set) => ({
     dayPhase: true,
     setDayPhase: (dayPhase) => set({ dayPhase }),
 
+    newDayPhase: 'day',  // default value
+    setNewDayPhase: (phase) => set({ newDayPhase: phase }),
+
+
 }))
 
 export default useStore

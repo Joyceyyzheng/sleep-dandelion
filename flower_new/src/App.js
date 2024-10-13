@@ -12,20 +12,15 @@ import { useEffect } from 'react';
 import Ground from './Ground';
 // import Flower from './Flower';
 import MovingLight from './MovingLight';
-// import PerformanceStats from './PerformanceStats';
 import CamUsage from './CamUsage';
 import { PerspectiveCamera } from '@react-three/drei'
 import Fireflies from './Fireflies';
 import ShinyParticles from './ShinyParticles';
 
 function App() {
-
-
   const modelActive = useStore(state => state.modelActive);
   const flowerActive = useStore(state => state.flowerActive);
   const dayPhase = useStore(state => state.dayPhase);
-
-  // let stats = new Stats()
 
   useEffect(() => {
 
@@ -41,9 +36,25 @@ function App() {
     }
   }, [flowerActive]);
 
-  // if (modelActive == true) {
-  //   console.info("modelactive=true")
+  //day night phase cycle
+  // const useDayNightCycle = () => {
+  //   const setDayPhase = useStore(state => state.setDayPhase);
+
+  //   useEffect(() => {
+  //     const updateDayPhase = () => {
+  //       const hour = new Date().getHours();
+  //       const newPhase = (hour >= 6 && hour < 18) ? 'day' : 'night';
+  //       setDayPhase(newPhase);
+  //       console.info(newPhase)
+  //     };
+
+  //     updateDayPhase();  // Update on mount
+  //     const intervalId = setInterval(updateDayPhase, 3600000); // Check every hour
+
+  //     return () => clearInterval(intervalId); // Cleanup on unmount
+  //   }, [setDayPhase]);
   // }
+  // useDayNightCycle();
   return (
     <div className="App">
 
@@ -56,20 +67,15 @@ function App() {
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {/* {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />} */}
-          {/* {!dayPhase && <Fireflies />} */}
-          <Fireflies />
+          {!dayPhase && <Fireflies />}
+          {/* <Fireflies /> */}
 
           <mesh>
-
             <Scene />
-
-            {/* original sphere and plane for test */}
-            {/* <Ground /> */}
-
-            <meshStandardMaterial />
+            {/* <meshStandardMaterial /> */}
           </mesh>
 
-          {/* <OrbitControls /> */}
+          <OrbitControls />
           <CamUsage />
           {/* <PerspectiveCamera
             makeDefault
@@ -77,7 +83,7 @@ function App() {
             position={[0, 1.3, 2.5]}
             rotation={[3, 10, Math.PI / 2]}
           /> */}
-          {/* <PerformanceStats /> */}
+
         </Canvas>
 
       </div>
