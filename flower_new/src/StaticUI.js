@@ -22,7 +22,7 @@ export default function StaticUI() {
         <>
             {/* <div className="ui-cat" onClick={growModel}>Cat✨</div>
             <div className="ui-flower" onClick={growFlower}>💡</div> */}
-            <div>Current Day: {dayNumber}</div>
+            <div className="ui-cat">Current Day: {dayNumber}</div>
         </>
     );
 }

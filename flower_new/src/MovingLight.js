@@ -80,13 +80,13 @@ const MovingLight = () => {
         if (judgingDayPhaseNum >= 0.35 && judgingDayPhaseNum <= 0.7 && time_cycle <= 0.5) {
 
             setDayStage(DAY_STAGES.EARLY);
-            console.info("early")
+            //   console.info("early")
 
 
 
         } else if (judgingDayPhaseNum > 0.7 && judgingDayPhaseNum <= 0.99 && time_cycle <= 0.5) {
             setDayStage(DAY_STAGES.LATE);
-            console.info("late")
+            //    console.info("late")
 
         } else {
             setDayStage(null);

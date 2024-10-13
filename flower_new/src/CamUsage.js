@@ -1,18 +1,25 @@
 import { useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
+import * as THREE from 'three';
 
 export default function CamUsage() {
     const { camera } = useThree(); // Destructure camera from the returned object
 
     // Log the camera position
-    console.log(camera.position); // Outputs: THREE.Vector3
+    //console.log(camera.position); // Outputs: THREE.Vector3
+    console.log(camera.rotation.y); // Outputs: THREE.Euler
+
 
     useEffect(() => {
-        camera.position.set(0, 1.4, 2.5);
+        camera.position.set(0, 0.4, 3.0);
+        // camera.rotation = { [30, 0, 0]};
+        camera.rotation.set(THREE.MathUtils.degToRad(1), THREE.MathUtils.degToRad(0), 0);
         camera.fov = 60;
+
         camera.updateProjectionMatrix();
         // camera.lookAt(0, 0, 0); // Ensuring the camera is looking at the center
     }, [camera]);
+
 
 
 

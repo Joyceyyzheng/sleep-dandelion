@@ -14,6 +14,8 @@ import Ground from './Ground';
 import MovingLight from './MovingLight';
 // import PerformanceStats from './PerformanceStats';
 import CamUsage from './CamUsage';
+import { PerspectiveCamera } from '@react-three/drei'
+import Fireflies from './Fireflies';
 
 function App() {
 
@@ -47,12 +49,12 @@ function App() {
 
         <StaticUI />
 
-        <Canvas >
-          <ambientLight intensity={4.0} />
+        <Canvas onCreated={(state) => { console.log(state) }}>
+          <ambientLight intensity={3.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
-          {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />}
-
+          {/* {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />} */}
+          <Fireflies />
           <mesh>
             {/* <Flower /> */}
             {/* <boxGeometry /> */}
@@ -63,8 +65,15 @@ function App() {
 
             <meshStandardMaterial />
           </mesh>
+
           <OrbitControls />
           <CamUsage />
+          {/* <PerspectiveCamera
+            makeDefault
+            fov={50}
+            position={[0, 1.3, 2.5]}
+            rotation={[3, 10, Math.PI / 2]}
+          /> */}
           {/* <PerformanceStats /> */}
         </Canvas>
 
