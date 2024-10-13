@@ -16,6 +16,7 @@ import MovingLight from './MovingLight';
 import CamUsage from './CamUsage';
 import { PerspectiveCamera } from '@react-three/drei'
 import Fireflies from './Fireflies';
+import ShinyParticles from './ShinyParticles';
 
 function App() {
 
@@ -49,16 +50,16 @@ function App() {
 
         <StaticUI />
 
-        <Canvas onCreated={(state) => { console.log(state) }}>
+        <Canvas onCreated={(state) => { console.log(state) }} gl={{ antialias: false }} dpr={[1, 2]}>
           <ambientLight intensity={3.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {/* {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />} */}
           <Fireflies />
+          {/* <ShinyParticles /> */}
           <mesh>
-            {/* <Flower /> */}
-            {/* <boxGeometry /> */}
-            <Scene />
+
+            {/* <Scene /> */}
 
             {/* original sphere and plane for test */}
             {/* <Ground /> */}
@@ -78,7 +79,7 @@ function App() {
         </Canvas>
 
       </div>
-    </div>
+    </div >
   );
 }
 
