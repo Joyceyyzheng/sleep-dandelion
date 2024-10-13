@@ -8,13 +8,11 @@ import { useStore } from './store';
 const MovingLight = () => {
 
     const lightRef = useRef();
-    // console.info(lightRef.current.position)
     const helperRef = useRef();
-    // const [duration, setDuration] = useState(30);
     const planetRef = useRef()
-    const { scene } = useThree(); // Use useThree hook correctly at the top level
+    const { scene } = useThree();
 
-    const [dayPhase, setDayPhase] = useState(true);
+    //  const [dayPhase, setDayPhase] = useState(true);
     const textureLoader = new TextureLoader();
     const initialSkyboxTexture = textureLoader.load('skybox/day.png');
     const [skyboxTexture, setSkyboxTexture] = useState(initialSkyboxTexture);
@@ -26,6 +24,8 @@ const MovingLight = () => {
     // const [dayNumber, setDayNumber] = useState(1)
     const setDayNumber = useStore(state => state.setDayNumber);
     const incrementDayNumber = useStore(state => state.incrementDayNumber);
+    const dayPhase = useStore(state => state.dayPhase);
+    const setDayPhase = useStore(state => state.setDayPhase);
 
 
     const DAY_STAGES = {
@@ -51,21 +51,17 @@ const MovingLight = () => {
 
         const time_cycle = (t % duration) / duration;
         const phase_cycle = Math.sin(time_cycle * Math.PI * 2);
-        //.info(time_cycle)
 
         // const currentDayPhase = Math.cos(t / duration * Math.PI) >= 0;
         const judgingDayPhaseNum = Math.sin(t / duration * Math.PI)
         const newJudgingDayPhase = Math.sin(t / duration * Math.PI) >= 0;
 
-
-
         if (newJudgingDayPhase !== dayPhase) {
             setDayPhase(newJudgingDayPhase);
         }
-
-        const startPosition = new Vector3(5, 5, -3);
+        //planet moving trace
+        const startPosition = new Vector3(5, 4.5, -3);
         const endPosition = new Vector3(-5, 2, -3);
-
 
         const x = startPosition.x + (endPosition.x - startPosition.x) * time_cycle; //was *time
         const y = startPosition.y + (endPosition.y - startPosition.y) * time_cycle;
@@ -77,17 +73,13 @@ const MovingLight = () => {
             lightRef.current.lookAt(new Vector3(0, -1, 0));
         }
 
-        if (judgingDayPhaseNum >= 0.35 && judgingDayPhaseNum <= 0.7 && time_cycle <= 0.5) {
+        if (judgingDayPhaseNum >= 0.42 && judgingDayPhaseNum <= 0.7 && time_cycle <= 0.5) {
 
             setDayStage(DAY_STAGES.EARLY);
             //   console.info("early")
-
-
-
         } else if (judgingDayPhaseNum > 0.7 && judgingDayPhaseNum <= 0.99 && time_cycle <= 0.5) {
             setDayStage(DAY_STAGES.LATE);
             //    console.info("late")
-
         } else {
             setDayStage(null);
         }
@@ -145,42 +137,25 @@ const MovingLight = () => {
         pointLightPosition.lerp(targetPosition, 0.01); // Adjust the 0.05 value to control the speed of the transition
         setPointLightPosition(pointLightPosition.clone());
     });
-
+    const planet_night = textureLoader.load('moon.jpg');
 
     return (
         <>
             <directionalLight ref={lightRef} position={[5, -1, 0]} intensity={10} color="white" />
             {dayStage && <pointLight position={[pointLightPosition.x, pointLightPosition.y, pointLightPosition.z]} intensity={100.0} />}
-            {/* start sunlight pos */}
-            {/* *** */}
-            {/* {dayStage === DAY_STAGES.EARLY && <pointLight position={[1.5, 1, 1]} intensity={100.0} />}
-            {dayStage === DAY_STAGES.LATE && <pointLight position={[0.15, 1.5, 1]} intensity={100.0} />} */}
-            {/* *** */}
-            {/* can't be like this! map the correct time, and then assign the pointlight position change.  */}
-            {/* mid sunlight pos */}
-            {/* <pointLight position={[0.5, 1, 1.5]} intensity={100.0} /> */}
-            {/* end sunlight pos2 */}
-
-
 
             <mesh ref={planetRef} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, 1]} >
                 <sphereGeometry />
-                <meshStandardMaterial color="yellow" side={DoubleSide} />
+                {dayPhase && <meshStandardMaterial color="orange" map={planet_night} side={DoubleSide} />}
+                {!dayPhase && <meshStandardMaterial color="gray" map={planet_night} side={DoubleSide} />}
+                {/* <meshStandardMaterial color="yellow" side={DoubleSide} /> */}
             </mesh>
             <mesh>
                 <boxGeometry args={[100, 100, 100]} />
                 <meshBasicMaterial map={skyboxTexture} side={BackSide} />
             </mesh>
 
-            {/* <div style={{ position: 'absolute', top: 20, left: 20, width: '30%' }}>
-                <Slider
-                    min={10}
-                    max={100}
-                    value={duration}
-                    onChange={handleSliderChange}
-                    aria-labelledby="duration-slider"
-                />
-            </div> */}
+
         </>
 
     );

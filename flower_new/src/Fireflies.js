@@ -5,7 +5,7 @@ import { useFrame, useThree, extend, useLoader } from "@react-three/fiber"
 import * as THREE from 'three';
 
 export default function Fireflies() {
-    const count = 50; // Number of fireflies
+    const count = 40; // Number of fireflies
     const velocities = useRef(
         new Array(count).fill(0).map(() => Math.random() * 0.0008 - 0.0001)
     )
@@ -16,26 +16,23 @@ export default function Fireflies() {
         const timeOffsets = new Float32Array(count)
 
         for (let i = 0; i < count; i++) {
-            positions[i * 3 + 0] = (Math.random() - 0.5) * 10
+            positions[i * 3 + 0] = (Math.random() - 0.5) * 3
             // positions[i * 3 + 1] = Math.pow(Math.random(), 2) * 1000
-            positions[i * 3 + 1] = Math.random(-0.5) * 700
-            positions[i * 3 + 2] = (Math.random() - 0.3) * 5
+            positions[i * 3 + 1] = Math.random(-0.5) * 10
+            positions[i * 3 + 2] = (Math.random() - 0.3) * 1
 
             // colors - yellow-orange-red
-            // let r = 0.8 + Math.random() * 0.2
-            // let g = 0.5 + Math.random() * 0.5
-            // let b = 0
+            let r = 0.5 + Math.random() * 1.4
+            let g = 0.5 + Math.random() * 1.7
+            let b = 0.5 + Math.random() * 1.7
+            // let r = 1.5
+            // let g = 0.5
+            // let b = 0.5
 
-            // colors - blue-purple
-            const r = Math.random() * 0.5
-            const g = 0
-            const b = 1 - 0.5 * Math.random() + 0.5
-
-            colors[i * 3] = r * 30
-            colors[i * 3 + 1] = g
-            colors[i * 3 + 2] = b * 100
-
-            sizes[i] = 10.0
+            colors[i * 3] = r * 70
+            colors[i * 3 + 1] = g * 50
+            colors[i * 3 + 2] = b * 5
+            sizes[i] = 5.0
 
             timeOffsets[i] = Math.random() * 2 * Math.PI
         }
@@ -73,9 +70,9 @@ export default function Fireflies() {
             positions[i * 3 + 2] +=
                 Math.cos(elapsedTime + i) * velocities.current[i] * 0.1
 
-            sizes[i] = 0.02 + 0.03 * Math.sin(0.1 * i + elapsedTime)
+            sizes[i] = 0.01 + 0.03 * Math.sin(0.1 * i + elapsedTime)
 
-            colors[i * 3 + 1] = 0.5 + 0.5 * Math.sin(elapsedTime + i * 0.1)
+            colors[i * 3 + 0] = 2.5 + 0.5 * Math.sin(elapsedTime + i * 0.1)
         }
         geometry.attributes.position.needsUpdate = true
         geometry.attributes.size.needsUpdate = true
@@ -84,16 +81,16 @@ export default function Fireflies() {
 
 
     // Generate random positions
-    const positions = useMemo(() => {
-        const pos = new Array(count).fill().map(() => {
-            return [
-                Math.random() * 3 - 1, // x position
-                Math.random() * 3 - 1, // y position
-                Math.random() * 3 - 1  // z position
-            ];
-        });
-        return pos;
-    }, [count]);
+    // const positions = useMemo(() => {
+    //     const pos = new Array(count).fill().map(() => {
+    //         return [
+    //             Math.random() * 3 - 1, // x position
+    //             Math.random() * 3 - 1, // y position
+    //             Math.random() * 3 - 1  // z position
+    //         ];
+    //     });
+    //     return pos;
+    // }, [count]);
 
     return (
         <>
@@ -121,16 +118,13 @@ export default function Fireflies() {
                 />
                 {/* </bufferGeometry> */}
                 <pointsMaterial
-                    // color={color}
                     vertexColors
                     transparent
                     alphaTest={0.5}
-                    // map={sprite}
                     normalized
                     size={0.012}
                     sizeAttenuation
-                // opacity={opacity}
-                // side={DoubleSide}
+
                 />
             </points>
         </>

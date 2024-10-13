@@ -23,6 +23,7 @@ function App() {
 
   const modelActive = useStore(state => state.modelActive);
   const flowerActive = useStore(state => state.flowerActive);
+  const dayPhase = useStore(state => state.dayPhase);
 
   // let stats = new Stats()
 
@@ -50,16 +51,17 @@ function App() {
 
         <StaticUI />
 
-        <Canvas onCreated={(state) => { console.log(state) }} gl={{ antialias: false }} dpr={[1, 2]}>
+        <Canvas onCreated={(state) => { console.log(state) }} gl={{ antialias: false }} >
           <ambientLight intensity={3.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {/* {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />} */}
+          {/* {!dayPhase && <Fireflies />} */}
           <Fireflies />
-          {/* <ShinyParticles /> */}
+
           <mesh>
 
-            {/* <Scene /> */}
+            <Scene />
 
             {/* original sphere and plane for test */}
             {/* <Ground /> */}
@@ -67,7 +69,7 @@ function App() {
             <meshStandardMaterial />
           </mesh>
 
-          <OrbitControls />
+          {/* <OrbitControls /> */}
           <CamUsage />
           {/* <PerspectiveCamera
             makeDefault
