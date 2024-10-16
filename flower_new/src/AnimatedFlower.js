@@ -10,44 +10,71 @@ function Model() {
     const { actions } = useAnimations(test_model.animations, test_model.scene);
     const { nodes, animations } = useGLTF("/models/dandelion_test.glb")
     // const { actions } = useAnimations(animations, flowerRef)
-    console.info("nodes", nodes, "animations", animations[0])
-    console.info("actions", actions)
+    const mixer = useRef(new THREE.AnimationMixer(null));
+    const [hovered, setHovered] = useState(false);
+    const [animationPlayed, setAnimationPlayed] = useState(false);
+    const [groupOne, setGroupOne] = useState([0, 2]);
 
-    const mixer = new THREE.AnimationMixer(test_model.scene);
+
+    // const mixer = new THREE.AnimationMixer(test_model.scene);
+    useEffect(() => {
+        ; // Attach the scene to the mixer
+        mixer.current = new THREE.AnimationMixer(test_model.scene);
+        console.log("mixer", mixer.current)
+    }, [test_model]);
 
     useEffect(() => {
-        console.log(flowerRef.current);
-
-        console.log("mixer", mixer)
-
-        // if (animations.length === 0) return;
-
-        if (animations.length) {
-            animations.forEach(clip => {
-                // console.log("animations CLIPS", clip)
-                const action = mixer.clipAction(clip)
-                // console.info("action", action)
-                action.play();
-                console.log("action is played")
-            });
-            return () => {
-                if (mixer) {
-                    mixer.stopAllAction();
-                }
-            }
+        if (hovered && !animationPlayed && animations.length > 0) {
+            const clip = animations[0]; // Assume you want to play the first animation
+            const action = mixer.current.clipAction(clip);
+            console.log("action", action)
+            action.setLoop(THREE.LoopOnce);
+            action.clampWhenFinished = true;
+            action.play();
+            setAnimationPlayed(true); // Ensures animation is played only once
         }
-    }, [test_model, animations]);
+    }, [hovered, animations, animationPlayed]);
+
+    // useEffect(() => {
+
+    //     console.log(flowerRef.current);
+    //     console.log("mixer", mixer)
+    //     console.info("nodes", nodes, "animations", animations[0])
+    //     console.info("actions", actions)
+
+    //     // if (animations.length === 0) return;
+
+    //     if (animations.length) {
+    //         animations.forEach(clip => {
+    //             // console.log("animations CLIPS", clip)
+    //             //  const action = mixer.clipAction(clip)
+    //             // console.info("action", action)
+    //             // action.play();
+    //             console.log("action is played")
+    //         });
+    //         return () => {
+    //             if (mixer) {
+    //                 //  mixer.stopAllAction();
+    //             }
+    //         }
+    //     }
+    // }, [test_model, animations, mixer.current]);
 
     useFrame((state, delta) => {
-        mixer?.update(delta)
+        //  mixer?.update(delta)
     })
+    useFrame((state, delta) => {
+        if (mixer.current) {
+            mixer.current.update(delta); // Update the mixer on each frame
+        }
+    });
 
-    const [hovered, setHovered] = useState(false);
 
     return (
         <group ref={flowerRef} dispose={null}
-            onPointerOver={(e) => setHovered(true)}
-            onPointerOut={(e) => setHovered(false)}>
+            onPointerOver={() => setHovered(true)}
+            onPointerOut={() => setHovered(false)}
+        >
             <primitive object={test_model.scene} position={[0, -1, 0]} scale={[0.1, 0.1, 0.1]} />
             {/* <skinnedMesh
                 castShadow
