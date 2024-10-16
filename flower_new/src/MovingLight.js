@@ -96,13 +96,13 @@ const MovingLight = () => {
         if (dayPhase) {
             console.info("Day");
 
-            const daySkyboxTexture = textureLoader.load('skybox/day.png');
+            const daySkyboxTexture = textureLoader.load('skybox/day_skybox.png');
             setSkyboxTexture(daySkyboxTexture);
             incrementDayNumber();
         } else {
             console.info("Night");
 
-            const nightSkyboxTexture = textureLoader.load('skybox/night.png');
+            const nightSkyboxTexture = textureLoader.load('skybox/night_skybox.png');
             setSkyboxTexture(nightSkyboxTexture);
         }
     }, [dayPhase]);
