@@ -13,7 +13,7 @@ const MovingLight = () => {
 
     //  const [dayPhase, setDayPhase] = useState(true);
     const textureLoader = new TextureLoader();
-    const initialSkyboxTexture = textureLoader.load('skybox/day.png');
+    const initialSkyboxTexture = textureLoader.load('skybox/day_skybox.png');
     const [skyboxTexture, setSkyboxTexture] = useState(initialSkyboxTexture);
     const dayTimelineRef = useRef()
 
@@ -94,13 +94,13 @@ const MovingLight = () => {
 
     useEffect(() => {
         if (dayPhase) {
-            console.info("Day");
+            // console.info("Day");
 
             const daySkyboxTexture = textureLoader.load('skybox/day_skybox.png');
             setSkyboxTexture(daySkyboxTexture);
             incrementDayNumber();
         } else {
-            console.info("Night");
+            // console.info("Night");
 
             const nightSkyboxTexture = textureLoader.load('skybox/night_skybox.png');
             setSkyboxTexture(nightSkyboxTexture);
@@ -110,11 +110,11 @@ const MovingLight = () => {
     const [dayStage, setDayStage] = useState(null);
 
     useEffect(() => {
-        console.info(dayStage)
+        // console.info(dayStage)
         if (dayStage === DAY_STAGES.EARLY) {
-            console.info("early")
+            //  console.info("early")
         } else if (dayStage === DAY_STAGES.LATE) {
-            console.info("late")
+            //   console.info("late")
         }
     }, [dayStage]);
 
@@ -138,7 +138,7 @@ const MovingLight = () => {
         pointLightPosition.lerp(targetPosition, 0.01); // Adjust the 0.05 value to control the speed of the transition
         setPointLightPosition(pointLightPosition.clone());
     });
-    const planet_night = textureLoader.load('moon.jpg');
+    const planet_night = textureLoader.load('skybox/moon.jpg');
 
     return (
         <>

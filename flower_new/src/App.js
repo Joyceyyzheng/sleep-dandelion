@@ -15,7 +15,8 @@ import MovingLight from './MovingLight';
 import CamUsage from './CamUsage';
 import { PerspectiveCamera } from '@react-three/drei'
 import Fireflies from './Fireflies';
-import ShinyParticles from './ShinyParticles';
+import AnimatedFlower from './AnimatedFlower';
+
 
 function App() {
   const modelActive = useStore(state => state.modelActive);
@@ -25,14 +26,14 @@ function App() {
   useEffect(() => {
 
     if (modelActive === true) {
-      console.info("modelActive=true");
+      // console.info("modelActive=true");
     }
   }, [modelActive]);
 
   useEffect(() => {
 
     if (flowerActive === true) {
-      console.info("flowerActive=true");
+      //  console.info("flowerActive=true");
     }
   }, [flowerActive]);
 
@@ -62,27 +63,22 @@ function App() {
 
         <StaticUI />
 
-        <Canvas onCreated={(state) => { console.log(state) }} gl={{ antialias: false }} >
+        <Canvas onCreated={(state) => {/* console.log(state)*/ }} gl={{ antialias: false }} >
           <ambientLight intensity={3.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
-          {/* {flowerActive && <pointLight position={[-1, 0, 1]} intensity={30} />} */}
+          {/* <Ground /> */}
           {!dayPhase && <Fireflies />}
           {/* <Fireflies /> */}
-
+          <AnimatedFlower />
           <mesh>
             <Scene />
             {/* <meshStandardMaterial /> */}
           </mesh>
 
-          {/* <OrbitControls /> */}
+          <OrbitControls />
           <CamUsage />
-          {/* <PerspectiveCamera
-            makeDefault
-            fov={50}
-            position={[0, 1.3, 2.5]}
-            rotation={[3, 10, Math.PI / 2]}
-          /> */}
+
 
         </Canvas>
 

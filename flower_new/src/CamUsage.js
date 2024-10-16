@@ -5,9 +5,6 @@ import * as THREE from 'three';
 export default function CamUsage() {
     const { camera } = useThree(); // Destructure camera from the returned object
 
-    // Log the camera position
-    //console.log(camera.position); // Outputs: THREE.Vector3
-    console.log(camera.rotation.y); // Outputs: THREE.Euler
 
 
     useEffect(() => {
