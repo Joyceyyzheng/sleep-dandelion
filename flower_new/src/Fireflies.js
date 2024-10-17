@@ -32,7 +32,7 @@ export default function Fireflies() {
             colors[i * 3] = r * 70
             colors[i * 3 + 1] = g * 50
             colors[i * 3 + 2] = b * 5
-            sizes[i] = 5.0
+            sizes[i] = 10.0
 
             timeOffsets[i] = Math.random() * 2 * Math.PI
         }
@@ -122,7 +122,7 @@ export default function Fireflies() {
                     transparent
                     alphaTest={0.5}
                     normalized
-                    size={0.012}
+                    size={0.018}
                     sizeAttenuation
 
                 />
