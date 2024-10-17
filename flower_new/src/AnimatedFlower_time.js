@@ -17,7 +17,7 @@ function Model() {
     // const [groupOne, setGroupOne] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]);
     //0-21,22-43,44-65,66-87,88-109,110-131,132-153,154-175,176-197,198-219
 
-    const desiredDuration = 141; // total duration in seconds for all animations
+    const desiredDuration = 135; // total duration in seconds for all animations
     const actualDuration = animations.reduce((acc, anim) => acc + anim.duration, 0); // sum of all animation durations
     console.info("actualDuration", actualDuration)
     const playbackSpeed = desiredDuration / actualDuration;
@@ -36,10 +36,6 @@ function Model() {
             animations.forEach(clip => {
                 const action = mixer.current.clipAction(clip);
                 action.setLoop(THREE.LoopRepeat);
-
-                // action.setLoop(THREE.LoopOnce);
-                //  action.clampWhenFinished = true;
-                // console.info(animations)
                 action.setDuration(desiredDuration);
                 // action.setEffectiveTimeScale(playbackSpeed);
                 action.play();
@@ -63,8 +59,6 @@ function Model() {
         >
             <primitive object={test_model.scene} position={[0, -1, 0]} scale={[0.1, 0.1, 0.1]}>
                 <meshStandardMaterial
-                    // ref={planeMaterialRef}
-                    //⚠️ updating material type
                     attach="material"
                     side={THREE.DoubleSide}
                 />

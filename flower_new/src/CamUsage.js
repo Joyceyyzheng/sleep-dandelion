@@ -8,7 +8,7 @@ export default function CamUsage() {
 
 
     useEffect(() => {
-        camera.position.set(0, 0.4, 3.0);
+        camera.position.set(0, 0.4, 3.1);
         // camera.rotation = { [30, 0, 0]};
         camera.rotation.set(THREE.MathUtils.degToRad(1), THREE.MathUtils.degToRad(0), 0);
         camera.fov = 60;

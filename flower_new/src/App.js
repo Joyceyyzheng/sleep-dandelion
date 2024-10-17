@@ -57,7 +57,7 @@ function App() {
             {/* <meshStandardMaterial /> */}
           </mesh>
 
-          <OrbitControls />
+          {/* <OrbitControls /> */}
           <CamUsage />
 
 

@@ -67,8 +67,8 @@ const MovingLight = () => {
             setDayPhase(newJudgingDayPhase);
         }
         //planet moving trace
-        const startPosition = new Vector3(5, 4.5, -3);
-        const endPosition = new Vector3(-5, 2, -3);
+        const startPosition = new Vector3(5, 4.5, -5);
+        const endPosition = new Vector3(-5, 2, -5);
 
         const x = startPosition.x + (endPosition.x - startPosition.x) * time_cycle; //was *time
         const y = startPosition.y + (endPosition.y - startPosition.y) * time_cycle;
@@ -80,7 +80,7 @@ const MovingLight = () => {
             lightRef.current.lookAt(new Vector3(0, -1, 0));
         }
 
-        if (judgingDayPhaseNum >= 0.42 && judgingDayPhaseNum <= 0.7 && time_cycle <= 0.5) {
+        if (judgingDayPhaseNum >= 0.12 && judgingDayPhaseNum <= 0.8 && time_cycle <= 0.5) {
 
             setDayStage(DAY_STAGES.EARLY);
 
@@ -150,8 +150,8 @@ const MovingLight = () => {
                 {dayPhase && <meshStandardMaterial color="orange" map={planet_night} side={DoubleSide} />}
                 {!dayPhase && <meshStandardMaterial color="gray" map={planet_night} side={DoubleSide} />}
             </mesh>
-            <mesh>
-                <boxGeometry args={[100, 100, 100]} />
+            <mesh position={[10, 0, 0]} >
+                <boxGeometry args={[200, 200, 200]} />
                 <meshBasicMaterial map={skyboxTexture} side={BackSide} />
             </mesh>
 
