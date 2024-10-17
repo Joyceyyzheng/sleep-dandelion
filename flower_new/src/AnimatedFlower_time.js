@@ -14,10 +14,8 @@ function Model() {
     const { actions } = useAnimations(test_model.animations, test_model.scene);
     const mixer = useRef(new THREE.AnimationMixer(null));
     const [animationPlayed, setAnimationPlayed] = useState(false);
-    // const [groupOne, setGroupOne] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]);
-    //0-21,22-43,44-65,66-87,88-109,110-131,132-153,154-175,176-197,198-219
 
-    const desiredDuration = 135; // total duration in seconds for all animations
+    const desiredDuration = 139; // total duration in seconds for all animations
     const actualDuration = animations.reduce((acc, anim) => acc + anim.duration, 0); // sum of all animation durations
     console.info("actualDuration", actualDuration)
     const playbackSpeed = desiredDuration / actualDuration;

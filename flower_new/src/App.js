@@ -38,6 +38,10 @@ function App() {
     }
   }, [flowerActive]);
 
+  useEffect(() => {
+    console.info("hey!")
+  }, [Canvas]);
+
   return (
     <div className="App">
 
@@ -46,7 +50,7 @@ function App() {
         <StaticUI />
 
         <Canvas onCreated={(state) => {/* console.log(state)*/ }} gl={{ antialias: false }} >
-          <ambientLight intensity={2.0} />
+          <ambientLight intensity={4.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {/* <Ground /> */}
@@ -54,10 +58,9 @@ function App() {
           <AnimatedFlowerTime />
           <mesh>
             <Scene />
-            {/* <meshStandardMaterial /> */}
           </mesh>
 
-          {/* <OrbitControls /> */}
+          <OrbitControls />
           <CamUsage />
 
 
