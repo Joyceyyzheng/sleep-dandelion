@@ -15,7 +15,8 @@ import MovingLight from './MovingLight';
 import CamUsage from './CamUsage';
 import { PerspectiveCamera } from '@react-three/drei'
 import Fireflies from './Fireflies';
-import AnimatedFlower from './AnimatedFlower';
+// import AnimatedFlower from './AnimatedFlower';
+import AnimatedFlowerTime from './AnimatedFlower_time';
 
 
 function App() {
@@ -45,12 +46,12 @@ function App() {
         <StaticUI />
 
         <Canvas onCreated={(state) => {/* console.log(state)*/ }} gl={{ antialias: false }} >
-          <ambientLight intensity={3.0} />
+          <ambientLight intensity={2.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
           {/* <Ground /> */}
           {!dayPhase && <Fireflies />}
-          <AnimatedFlower />
+          <AnimatedFlowerTime />
           <mesh>
             <Scene />
             {/* <meshStandardMaterial /> */}

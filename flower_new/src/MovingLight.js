@@ -52,7 +52,7 @@ const MovingLight = () => {
 
     useFrame(({ clock }) => {
         const t = clock.getElapsedTime(); //set an initial realworld time and map real world time
-        const duration = 2; //⚠️ where to modify the time duration -> seconds
+        const duration = 10; //⚠️ where to modify the time duration -> seconds
         const time = (Math.sin(t / duration * Math.PI) + 1) / 2;
 
         dayTimelineRef.current = Math.cos(t / duration * Math.PI)

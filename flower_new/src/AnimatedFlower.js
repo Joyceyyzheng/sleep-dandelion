@@ -5,6 +5,7 @@ import { useGLTF, useAnimations } from "@react-three/drei"
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import useStore from "./store"
 
+//this script is for step-by-step triggering of animations
 function Model() {
     const flowerRef = useRef()
     const test_model = useLoader(GLTFLoader, '/models/dandelion_keyframetest_02.glb')
@@ -24,13 +25,14 @@ function Model() {
     // const [groupSix, setGroupSix] = useState([15, 16, 17]);//内侧花瓣完全长出来
     // const [groupSeven, setGroupSeven] = useState([18, 19, 20, 21, 22]);//外侧花瓣完全长出来
 
-    const [groupOne, setGroupOne] = useState([0, 1, 2]);//花蕊和叶子长高
-    const [groupTwo, setGroupTwo] = useState([4]);//叶子往外扩展
-    const [groupThree, setGroupThree] = useState([3]);//叶子扩展到位
-    const [groupFour, setGroupFour] = useState([5]);//花蕊完全抽出来
-    const [groupFive, setGroupFive] = useState([7]);//另一组花蕊完全抽出来
-    const [groupSix, setGroupSix] = useState([6]);//内侧花瓣完全长出来
-    const [groupSeven, setGroupSeven] = useState([8]);//外侧花瓣完全长出来
+    const [groupOne, setGroupOne] = useState([]);//花蕊和叶子长高
+    const [groupTwo, setGroupTwo] = useState([]);//叶子往外扩展
+    // const [groupThree, setGroupThree] = useState([1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]);//叶子扩展到位
+    const [groupThree, setGroupThree] = useState(Array.from({ length: 219 }, (_, i) => i + 1));
+    const [groupFour, setGroupFour] = useState([]);//花蕊完全抽出来
+    const [groupFive, setGroupFive] = useState([]);//另一组花蕊完全抽出来
+    const [groupSix, setGroupSix] = useState([]);//内侧花瓣完全长出来
+    const [groupSeven, setGroupSeven] = useState([]);//外侧花瓣完全长出来
 
 
     const dayNumber = useStore(state => state.dayNumber);
@@ -222,4 +224,3 @@ export default function AnimatedFlower() {
 }
 
 
-useGLTF.preload("/models/Airplane19.glb")

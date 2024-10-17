@@ -8,7 +8,7 @@ export default function StaticUI() {
 
     return (
         <>
-            <div className="ui-cat">Current Day: {dayNumber}</div>
+            {/* <div className="ui-cat">Current Day: {dayNumber}</div> */}
             <div className="progress-bar-parent">
                 <div className={`checkbox ${dayNumber >= 1 ? (dayPhase ? 'day-checked' : 'night-checked') : dayNumber === 0 ? 'default' : ''}`} id="dayOne"></div>
                 <div className={`checkbox ${dayNumber >= 2 ? (dayPhase ? 'day-checked' : 'night-checked') : dayNumber === 0 ? 'default' : ''}`} id="dayTwo"></div>
