@@ -25,9 +25,6 @@ export default function Fireflies() {
             let r = 0.5 + Math.random() * 1.4
             let g = 0.5 + Math.random() * 1.7
             let b = 0.5 + Math.random() * 1.7
-            // let r = 1.5
-            // let g = 0.5
-            // let b = 0.5
 
             colors[i * 3] = r * 70
             colors[i * 3 + 1] = g * 50
@@ -49,7 +46,6 @@ export default function Fireflies() {
             new THREE.BufferAttribute(timeOffsets, 1)
         )
 
-        // return { positions, color, sizes }
         return geometry
     }, [])
 
@@ -80,34 +76,9 @@ export default function Fireflies() {
     })
 
 
-    // Generate random positions
-    // const positions = useMemo(() => {
-    //     const pos = new Array(count).fill().map(() => {
-    //         return [
-    //             Math.random() * 3 - 1, // x position
-    //             Math.random() * 3 - 1, // y position
-    //             Math.random() * 3 - 1  // z position
-    //         ];
-    //     });
-    //     return pos;
-    // }, [count]);
-
     return (
         <>
-            {/* <Points
-                limit={1000} // Max amount of items for buffer size calculation
-                range={20}  // Draw range
-            >
-                <pointsMaterial vertexColors size={5} sizeAttenuation={false} />
 
-                {positions.map((pos, index) => (
-                    <Point
-                        key={index}
-                        position={pos}
-                        color="white" // You can also randomize or set specific colors if needed
-                    />
-                ))}
-            </Points> */}
             <points geometry={geometry}>
                 <bufferAttribute
                     attach={"geometry-color"}

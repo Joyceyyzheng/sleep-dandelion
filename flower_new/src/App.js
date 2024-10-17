@@ -37,25 +37,6 @@ function App() {
     }
   }, [flowerActive]);
 
-  //day night phase cycle
-  // const useDayNightCycle = () => {
-  //   const setDayPhase = useStore(state => state.setDayPhase);
-
-  //   useEffect(() => {
-  //     const updateDayPhase = () => {
-  //       const hour = new Date().getHours();
-  //       const newPhase = (hour >= 6 && hour < 18) ? 'day' : 'night';
-  //       setDayPhase(newPhase);
-  //       console.info(newPhase)
-  //     };
-
-  //     updateDayPhase();  // Update on mount
-  //     const intervalId = setInterval(updateDayPhase, 3600000); // Check every hour
-
-  //     return () => clearInterval(intervalId); // Cleanup on unmount
-  //   }, [setDayPhase]);
-  // }
-  // useDayNightCycle();
   return (
     <div className="App">
 
@@ -69,14 +50,13 @@ function App() {
           <MovingLight />
           {/* <Ground /> */}
           {!dayPhase && <Fireflies />}
-          {/* <Fireflies /> */}
           <AnimatedFlower />
           <mesh>
             <Scene />
             {/* <meshStandardMaterial /> */}
           </mesh>
 
-          {/* <OrbitControls /> */}
+          <OrbitControls />
           <CamUsage />
 
 

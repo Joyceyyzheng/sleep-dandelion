@@ -14,7 +14,7 @@ export const useStore = create((set) => ({
     dayNumber: 0,
     setDayNumber: (dayNumber) => set({ dayNumber }),
     incrementDayNumber: () => set(state => ({
-        dayNumber: state.dayNumber >= 7 ? 1 : state.dayNumber + 1
+        dayNumber: state.dayNumber >= 7 ? 1 : state.dayNumber + 1 //⚠️ where to modify the day number -> days
     })),
 
     dayPhase: true,
@@ -22,8 +22,6 @@ export const useStore = create((set) => ({
 
     newDayPhase: 'day',  // default value
     setNewDayPhase: (phase) => set({ newDayPhase: phase }),
-
-
 }))
 
 export default useStore
