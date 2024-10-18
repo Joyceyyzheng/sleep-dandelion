@@ -81,12 +81,9 @@ const MovingLight = () => {
         }
 
         if (judgingDayPhaseNum >= 0.12 && judgingDayPhaseNum <= 0.8 && time_cycle <= 0.5) {
-
             setDayStage(DAY_STAGES.EARLY);
-
         } else if (judgingDayPhaseNum > 0.7 && judgingDayPhaseNum <= 0.99 && time_cycle <= 0.5) {
             setDayStage(DAY_STAGES.LATE);
-
         } else {
             setDayStage(null);
         }
@@ -94,14 +91,10 @@ const MovingLight = () => {
 
     useEffect(() => {
         if (dayPhase) {
-            // console.info("Day");
-
             const daySkyboxTexture = textureLoader.load('skybox/day_skybox.png');
             setSkyboxTexture(daySkyboxTexture);
             incrementDayNumber();
         } else {
-            // console.info("Night");
-
             const nightSkyboxTexture = textureLoader.load('skybox/night_skybox.png');
             setSkyboxTexture(nightSkyboxTexture);
         }
@@ -109,14 +102,6 @@ const MovingLight = () => {
 
     const [dayStage, setDayStage] = useState(null);
 
-    useEffect(() => {
-        // console.info(dayStage)
-        if (dayStage === DAY_STAGES.EARLY) {
-            //  console.info("early")
-        } else if (dayStage === DAY_STAGES.LATE) {
-            //   console.info("late")
-        }
-    }, [dayStage]);
 
     //light and helper
     useFrame(() => {
@@ -154,9 +139,7 @@ const MovingLight = () => {
                 <boxGeometry args={[200, 200, 200]} />
                 <meshBasicMaterial map={skyboxTexture} side={BackSide} />
             </mesh>
-
         </>
-
     );
 };
 export default MovingLight

@@ -20,27 +20,7 @@ import AnimatedFlowerTime from './AnimatedFlower_time';
 
 
 function App() {
-  const modelActive = useStore(state => state.modelActive);
-  const flowerActive = useStore(state => state.flowerActive);
   const dayPhase = useStore(state => state.dayPhase);
-
-  useEffect(() => {
-
-    if (modelActive === true) {
-      // console.info("modelActive=true");
-    }
-  }, [modelActive]);
-
-  useEffect(() => {
-
-    if (flowerActive === true) {
-      //  console.info("flowerActive=true");
-    }
-  }, [flowerActive]);
-
-  useEffect(() => {
-    console.info("hey!")
-  }, [Canvas]);
 
   return (
     <div className="App">

@@ -10,21 +10,19 @@ function Model() {
     const flowerRef = useRef()
     const test_model = useLoader(GLTFLoader, '/models/dandelion_keyframetest_02.glb')
     const { nodes, animations } = useGLTF("/models/dandelion_keyframetest_02.glb")
-    //console.info(animations.length)
+
     const { actions } = useAnimations(test_model.animations, test_model.scene);
     const mixer = useRef(new THREE.AnimationMixer(null));
     const [animationPlayed, setAnimationPlayed] = useState(false);
 
     const desiredDuration = 139; // total duration in seconds for all animations
     const actualDuration = animations.reduce((acc, anim) => acc + anim.duration, 0); // sum of all animation durations
-    console.info("actualDuration", actualDuration)
+
     const playbackSpeed = desiredDuration / actualDuration;
-    const dayNumber = useStore(state => state.dayNumber);
 
     // const mixer = new THREE.AnimationMixer(test_model.scene);
     useEffect(() => {
         mixer.current = new THREE.AnimationMixer(test_model.scene);
-        console.log("mixer", mixer.current)
     }, [test_model]);
 
 

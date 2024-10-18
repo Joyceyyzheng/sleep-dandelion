@@ -63,7 +63,6 @@ function Model() {
         if (animations.length > 0 && dayNumber === 1) {
             // Stop all current animations before starting new ones
             mixer.current.stopAllAction();
-            console.info("reset")
 
             // Iterate over the selected group of animations to play
             groupOne.forEach(index => {
