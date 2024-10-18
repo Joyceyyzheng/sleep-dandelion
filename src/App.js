@@ -33,14 +33,12 @@ function App() {
           <ambientLight intensity={4.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
           <MovingLight />
-          {/* <Ground /> */}
           {!dayPhase && <Fireflies />}
           <AnimatedFlowerTime />
           <mesh>
             <Scene />
           </mesh>
-
-          <OrbitControls />
+          {/* <OrbitControls /> */}
           <CamUsage />
 
 
