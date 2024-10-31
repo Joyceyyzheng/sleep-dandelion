@@ -8,8 +8,8 @@ import useStore from "./store"
 //this script is for step-by-step triggering of animations
 function Model() {
     const flowerRef = useRef()
-    const test_model = useLoader(GLTFLoader, '/models/dandelion_keyframetest_02.glb')
-    const { nodes, animations } = useGLTF("/models/dandelion_keyframetest_02.glb")
+    const test_model = useLoader(GLTFLoader,`${process.env.PUBLIC_URL}/models/dandelion_keyframetest_02.glb`)
+    const { nodes, animations } = useGLTF(`${process.env.PUBLIC_URL}/models/dandelion_keyframetest_02.glb`)
 
     const { actions } = useAnimations(test_model.animations, test_model.scene);
     const mixer = useRef(new THREE.AnimationMixer(null));
