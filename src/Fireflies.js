@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { Points, Point } from "@react-three/drei";
-import { useFrame, useThree, extend, useLoader } from "@react-three/fiber"
+import { useFrame } from "@react-three/fiber"
 
 import * as THREE from 'three';
 
