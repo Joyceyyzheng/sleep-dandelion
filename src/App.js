@@ -32,7 +32,8 @@ function App() {
         <Canvas onCreated={(state) => {/* console.log(state)*/ }} gl={{ antialias: false }} >
           <ambientLight intensity={4.0} />
           <pointLight position={[-0.5, -2, 1]} intensity={1} />
-          <MovingLight />
+          <MovingLight />npm install gh-pages --save-dev
+
           {!dayPhase && <Fireflies />}
           <AnimatedFlowerTime />
           <mesh>
